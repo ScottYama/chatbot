@@ -64,35 +64,42 @@ def getResponse(parentInput):
     response = bestAnswer(parseResponse)
     return response
 
-# text at 4pm (16:00 military time)
-alarmHour = 16
-alarmMin = 0
-alarmSec = 0
+def main():
+    # text at 4pm (16:00 military time)
+    alarmHour = 16
+    alarmMin = 0
+    alarmSec = 0
 
-# keep program running
-while True:
-    #if it is 4pm send the text
-    if alarmHour == datetime.datetime.now().hour and alarmMin == datetime.datetime.now().minute and \
-           alarmSec == datetime.datetime.now().second:
-        # 0=weather, 1=cooking, 2=travel
-        randScenario = random.randrange(3)
+    # keep program running
+    while True:
+        #if it is 4pm send the text
+        if alarmHour == datetime.datetime.now().hour and alarmMin == datetime.datetime.now().minute and \
+               alarmSec == datetime.datetime.now().second:
+            # 0=weather, 1=cooking, 2=travel
+            global randScenario
+            randScenario = random.randrange(3)
 
-        # create map for possible responses and their probabilities
-        messageProbList = {}
+            # create map for possible responses and their probabilities
+            global messageProbList
+            messageProbList = {}
 
-        # send initial question from child
-        if randScenario == 0:
-            print('Child: Hey, how is the weather where you are?')
-        elif randScenario == 1:
-            print('Child: Hi, what are you planning on cooking for dinner?')
-        else:
-            print('Child: Hello, are you going to travel to another continent soon? If so, which one?')
+            # send initial question from child
+            if randScenario == 0:
+                print('Child: Hey, how is the weather where you are?')
+            elif randScenario == 1:
+                print('Child: Hi, what are you planning on cooking for dinner?')
+            else:
+                print('Child: Hello, are you going to travel to another continent soon? If so, which one?')
 
-        talk = True
-        while talk:
-            childResponse = getResponse(input('Parent: '))
-            print('Child: ' + childResponse)
-            # end conversation after child says bye
-            if childResponse == "Talk to you later." or childResponse == "Bye. Love you!" or childResponse == "Take care!":
-                talk = False
-                print('-----------------------------------------------------------------------------------------------')
+            talk = True
+            while talk:
+                childResponse = getResponse(input('Parent: '))
+                print('Child: ' + childResponse)
+                # end conversation after child says bye
+                if childResponse == "Talk to you later." or childResponse == "Bye. Love you!" or \
+                        childResponse == "Take care!":
+                    talk = False
+                    print('-------------------------------------------------------------------------------------------')
+
+if __name__ == "__main__":
+    main()
